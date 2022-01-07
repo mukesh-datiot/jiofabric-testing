@@ -9,6 +9,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -55,7 +56,7 @@ public class Unit_TestCases {
 
     @Test
     public void a_addUnit() throws Exception {
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
         Workbook wb = WorkbookFactory.create(ip);
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
 
@@ -127,8 +128,6 @@ public class Unit_TestCases {
         }
 
         wait = new WebDriverWait(driver, 50);
-//        WebElement addUnitButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//*[@class='btn btn-primary']")));
-//        addUnitButton.click();
         WebElement addUnitButton = driver.findElement(By.xpath("//*[@class='btn btn-primary']"));
         addUnitButton.click();
         Select selectVertical = new Select(driver.findElement(By.cssSelector("[data-test='test-vertical-input']")));
@@ -323,53 +322,53 @@ public class Unit_TestCases {
     }
 
 
-    public static void verifyUnit() throws Exception {
-
-        String updatedUnitName = "";
-        String selectedField = "";
-        String name = "";
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
-
-        Workbook wb = WorkbookFactory.create(ip);
-        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
-        dataList = read(wb, "Unit");
-        for (Map<String, String> dataMap : dataList) {
-            Set<String> mapKeys = dataMap.keySet();
-            for (String s : mapKeys) {
-                //  System.out.println("s = " + s);
-                if (s.equals("name")) {
-                    name = dataMap.get(s);
-                }
-
-                if (s.equals("selectedField")) {
-                    selectedField = dataMap.get(s);
-                }
-                if (s.equals("updatedUnitName")) {
-                    updatedUnitName = dataMap.get(s);
-                }
-            }
-            ip.close();
-
-            List<WebElement> rowSize =
-                    driver.findElements(By.xpath("*//table/tbody/tr"));
-            WebElement row = null;
-            for (int i = 0; i < rowSize.size(); i++) {
-                String col1 = rowSize.get(i).findElement((By.cssSelector("td:nth-of-type(1)"))).getText();
-                String col2 = rowSize.get(i).findElement((By.cssSelector("td:nth-of-type(2)"))).getText();
-//            System.out.println(rowSize.get(i).findElement((By.cssSelector("td:nth-of-type(2)"))).getText());
-//            System.out.println(col1 + "  " + col2);
-                if (col1.equals(selectedField) && col2.equals(name)) {
-                    System.out.println(col1 + "  " + col2);
-                    row = rowSize.get(i);
-                    break;
-                }
-            }
-            System.out.println("CHAL JAA BHAI");
-            System.out.println(row.getText());
-            row.findElement((By.cssSelector("td:nth-of-type(4)"))).findElement(By.id("edit-unit")).click();
-            Thread.sleep(1000);
-        }
-    }
+//    public static void verifyUnit() throws Exception {
+//
+//        String updatedUnitName = "";
+//        String selectedField = "";
+//        String name = "";
+//        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+//
+//        Workbook wb = WorkbookFactory.create(ip);
+//        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+//        dataList = read(wb, "Unit");
+//        for (Map<String, String> dataMap : dataList) {
+//            Set<String> mapKeys = dataMap.keySet();
+//            for (String s : mapKeys) {
+//                //  System.out.println("s = " + s);
+//                if (s.equals("name")) {
+//                    name = dataMap.get(s);
+//                }
+//
+//                if (s.equals("selectedField")) {
+//                    selectedField = dataMap.get(s);
+//                }
+//                if (s.equals("updatedUnitName")) {
+//                    updatedUnitName = dataMap.get(s);
+//                }
+//            }
+//            ip.close();
+//
+//            List<WebElement> rowSize =
+//                    driver.findElements(By.xpath("*//table/tbody/tr"));
+//            WebElement row = null;
+//            for (int i = 0; i < rowSize.size(); i++) {
+//                String col1 = rowSize.get(i).findElement((By.cssSelector("td:nth-of-type(1)"))).getText();
+//                String col2 = rowSize.get(i).findElement((By.cssSelector("td:nth-of-type(2)"))).getText();
+////            System.out.println(rowSize.get(i).findElement((By.cssSelector("td:nth-of-type(2)"))).getText());
+////            System.out.println(col1 + "  " + col2);
+//                if (col1.equals(selectedField) && col2.equals(name)) {
+//                    System.out.println(col1 + "  " + col2);
+//                    row = rowSize.get(i);
+//                    break;
+//                }
+//            }
+//            System.out.println("CHAL JAA BHAI");
+//            System.out.println(row.getText());
+//            row.findElement((By.cssSelector("td:nth-of-type(4)"))).findElement(By.id("edit-unit")).click();
+//            Thread.sleep(1000);
+//        }
+//    }
 
     private static List<Map<String, String>> read(Workbook wb, String main){
         Sheet sheet = wb.getSheet(main);
@@ -419,8 +418,8 @@ public class Unit_TestCases {
     }
 
     @Test
-    public void d_deleteOneUnitButton() throws InterruptedException, Exception {
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
+    public void d_deleteOneSubUnit() throws InterruptedException, Exception {
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
         Workbook wb = WorkbookFactory.create(ip);
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
 
@@ -564,7 +563,7 @@ public class Unit_TestCases {
 
         String selectedField = "";
         String name = "";
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
 
         Workbook wb = WorkbookFactory.create(ip);
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
@@ -628,7 +627,7 @@ public class Unit_TestCases {
         String updatedUnitName = "";
         String selectedField = "";
         String name = "";
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
 
         Workbook wb = WorkbookFactory.create(ip);
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
@@ -703,7 +702,7 @@ public class Unit_TestCases {
 
         String selectedField = "";
         String name = "";
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
 
         Workbook wb = WorkbookFactory.create(ip);
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
@@ -740,8 +739,8 @@ public class Unit_TestCases {
 //            System.out.println(row.getText());
 //            row.findElement((By.cssSelector("td:nth-of-type(4)"))).findElement(By.id("delete-unit")).click();
             wait = new WebDriverWait(driver, 50);
-            WebElement editButton1 = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']"));
-            editButton1.click();
+            WebElement deleteButton1 = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']"));
+            deleteButton1.click();
             WebElement deleteUnit =driver.findElement(By.cssSelector("[class='swal2-confirm swal2-styled']"));
             deleteUnit.click();
             Thread.sleep(200);
@@ -759,7 +758,7 @@ public class Unit_TestCases {
 
     @Test
     public void clickingOnBackButton() throws Exception {
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
         Workbook wb = WorkbookFactory.create(ip);
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
 
@@ -861,7 +860,7 @@ public class Unit_TestCases {
     public void createUnitWithBlankUnit() throws Exception {
         String name = "";
         String selectedField = "";
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
 
         Workbook wb = WorkbookFactory.create(ip);
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
@@ -900,7 +899,7 @@ public class Unit_TestCases {
     public void createUnitWithBlankName() throws Exception {
         String unit1 = "";
         String selectedField = "";
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
 
         Workbook wb = WorkbookFactory.create(ip);
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
@@ -940,7 +939,7 @@ public class Unit_TestCases {
         String selectedField = "";
         String aliases1 = "";
         String aliases2 = "";
-        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\demo\\src\\test\\resources\\excel\\unit.xlsx");
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
 
         Workbook wb = WorkbookFactory.create(ip);
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
@@ -987,6 +986,120 @@ public class Unit_TestCases {
 //            System.out.println("Aliases2 = " + aliasesValue);
 //            Assert.assertEquals(aliasesValue, aliases1);
         }
+
+    }
+
+    @Test
+    public void mandatoryFieldsAreEmptyWhileUploadingUnitFile() throws Exception {
+        WebElement clickUploadButton = driver.findElement(By.cssSelector("[class='mx-1 btn btn-secondary']"));
+        clickUploadButton.click();
+        WebElement clickSubmitButton = driver.findElement(By.xpath("//button[@type='submit']"));
+        clickSubmitButton.click();
+        Thread.sleep(500);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+        WebElement errorMessage = driver.findElement(By.cssSelector("[class='alert-text font-weight-bold']"));
+        System.out.println(errorMessage.getText());
+        Assert.assertEquals("All fields are required", errorMessage.getText());
+
+    }
+
+    @Test
+    public void searchUnitByName()throws Exception {
+        String name = "";
+        String selectedField = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Unit");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+
+            }
+            ip.close();
+
+            WebElement searchUnitName = driver.findElement(By.xpath("//*[@class='form-control']"));
+            searchUnitName.click();
+            searchUnitName.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+            searchUnitName.clear();
+            searchUnitName.sendKeys(name);
+            Assert.assertTrue(driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='edit-unit']")).isDisplayed());
+            Assert.assertTrue(driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']")).isDisplayed());
+        }
+    }
+
+
+    @Test
+    public void clickingOnOneOfTheCorrespondingUnits() throws Exception {
+
+        String name = "";
+        String selectedField = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Unit");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+
+            }
+            ip.close();
+
+            WebElement editButton = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='edit-unit']"));
+            editButton.click();
+
+
+            List<WebElement> rows = driver.findElements(By.cssSelector("[data-test='test-unitName']"));
+            int count = rows.size();
+            System.out.println("count -" + count);
+
+            WebElement clickOnBackButton = driver.findElement(By.cssSelector("[class='btn btn-info ml-1']"));
+            clickOnBackButton.click();
+
+
+            WebElement unitButton1 = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/button"));
+            unitButton1.click();
+            Thread.sleep(500);
+            Assert.assertTrue(driver.findElement(By.xpath("//*[@class='modal-content']")).isDisplayed());
+            List<WebElement> rows1 = driver.findElements(By.xpath("//*[@class='modal-content']/div//table/tbody//tr"));
+            int count1 = rows1.size();
+            System.out.println("count1 -" + count1);
+            Assert.assertEquals(count, count1);
+            WebElement clickingOnOkButton = driver.findElement(By.xpath("//button[@class='btn btn-secondary']"));
+            clickingOnOkButton.click();
+            Thread.sleep(500);
+            boolean popUp = (isElementPresent(By.xpath("//*[@class='modal-content']")));
+            Assert.assertEquals(popUp, false);
+            Thread.sleep(500);
+            unitButton1.click();
+            List<WebElement> rows2 = driver.findElements(By.xpath("//*[@class='modal-content']/div//table/tbody//tr"));
+            int count2 = rows2.size();
+            System.out.println("count2 -" + count2);
+            Assert.assertEquals(count, count1);
+            Thread.sleep(500);
+            Assert.assertTrue(driver.findElement(By.xpath("//*[@class='modal-content']")).isDisplayed());
+            WebElement clickingOnCrossButton = driver.findElement(By.xpath("//button[@class='close']"));
+            clickingOnCrossButton.click();
+            Thread.sleep(500);
+            boolean popUp1 = (isElementPresent(By.xpath("//*[@class='modal-content']")));
+            Assert.assertEquals(popUp1, false);
+
+        }
+
 
     }
 
