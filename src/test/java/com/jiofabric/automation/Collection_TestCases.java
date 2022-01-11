@@ -901,6 +901,44 @@ public class Collection_TestCases {
 
     }
 
+    @Test
+    public void searchCollectionEntityByName() throws Exception {
+
+        String selectedField = "";
+        String name = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Collection");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+
+            }
+            ip.close();
+
+            WebElement selectCollection = driver.findElement(By.xpath("(//*[@data-test='test-navItems'])[2]"));
+            selectCollection.click();
+
+            WebElement searchName = driver.findElement(By.cssSelector("[class='form-control']"));
+            searchName.click();
+            searchName.clear();
+            searchName.sendKeys(name);
+            WebElement editCollection = driver.findElement(By.xpath("//tbody/tr/td[text()='/"+ selectedField.toLowerCase() +"/collection/"+ name+"']/following-sibling::td[2]/div/button[@id='edit-collection']"));
+            Assert.assertTrue(editCollection.isDisplayed());
+            WebElement deleteCollection = driver.findElement(By.xpath("//tbody/tr/td[text()='/"+ selectedField.toLowerCase() +"/collection/"+ name+"']/following-sibling::td[2]/div/button[@id='delete-collection']"));
+            Assert.assertTrue(deleteCollection.isDisplayed());
+        }
+
+    }
+
 
     @Test
     public void addCollectionWithoutVerticalAndTypeField() throws Exception {
