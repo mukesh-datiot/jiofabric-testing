@@ -1106,5 +1106,297 @@ public class Unit_TestCases {
     public static  boolean listEqualsIgnoreOrder(List<String> list1, List<String> list2) {
         return new HashSet<String>(list1).equals(new HashSet<String>(list2));
     }
+
+    @Test
+    public void downloadUnitFileAsJson() throws Exception {
+
+        String selectedField = "";
+        String name = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Collection");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+
+            }
+            ip.close();
+
+            WebElement downloadButton = driver.findElement(By.xpath("(//button[@type='button'])[2]"));
+            downloadButton.click();
+
+            Thread.sleep(500);
+            Assert.assertTrue(driver.findElement(By.cssSelector("[class='modal-content']")).isDisplayed());
+
+
+            Select selectVertical = new Select(driver.findElement(By.cssSelector("[name='vertical']")));
+            selectVertical.selectByVisibleText(selectedField);
+
+//            WebElement jsonButton = driver.findElement(By.xpath("//input[@value='json']"));
+//            jsonButton.click();
+
+            WebElement submitButton = driver.findElement(By.xpath("//button[@type='submit']"));
+            submitButton.click();
+        }
+
+    }
+
+    @Test
+    public void downloadUnitFileAsProto() throws Exception {
+
+        String selectedField = "";
+        String name = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Collection");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+
+            }
+            ip.close();
+
+
+            WebElement downloadButton = driver.findElement(By.xpath("(//button[@type='button'])[2]"));
+            downloadButton.click();
+
+            Thread.sleep(500);
+            Assert.assertTrue(driver.findElement(By.cssSelector("[class='modal-content']")).isDisplayed());
+
+
+            Select selectVertical = new Select(driver.findElement(By.cssSelector("[name='vertical']")));
+            selectVertical.selectByVisibleText(selectedField);
+
+            WebElement jsonButton = driver.findElement(By.xpath("//input[@value='proto']"));
+            jsonButton.click();
+
+            WebElement submitButton = driver.findElement(By.xpath("//button[@type='submit']"));
+            submitButton.click();
+        }
+
+    }
+
+
+    @Test
+    public void deleteUnitWithIsAssociatedWithQuantity() throws Exception {
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+
+        dataList = read(wb, "Unit");
+        ip.close();
+        for (Map<String, String> dataMap : dataList) {
+            String name = "";
+            String quantityType="";
+            String valueType="";
+
+            String name1 = "";
+            String name2 = "";
+            String name3 = "";
+            String name4 = "";
+            String name5 = "";
+
+            String aliases1 = "";
+            String aliases2 = "";
+            String aliases3 = "";
+            String aliases4 = "";
+            String aliases5 = "";
+
+            String selectedField = "";
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                System.out.println("s = " + s);
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+                if (s.equals("quantityType")) {
+                    quantityType = dataMap.get(s);
+                }
+                if (s.equals("valueType")) {
+                    valueType = dataMap.get(s);
+                }
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+                if (s.equals("name1")) {
+                    name1 = dataMap.get(s);
+                }
+                if (s.equals("name2")) {
+                    name2 = dataMap.get(s);
+                }
+                if (s.equals("name3")) {
+                    name3 = dataMap.get(s);
+                }
+                if (s.equals("name4")) {
+                    name4 = dataMap.get(s);
+                }
+                if (s.equals("name5")) {
+                    name5 = dataMap.get(s);
+                }
+                if (s.equals("aliases1")) {
+                    aliases1 = dataMap.get(s);
+                }
+                if (s.equals("aliases2")) {
+                    aliases2 = dataMap.get(s);
+                }
+                if (s.equals("aliases3")) {
+                    aliases3 = dataMap.get(s);
+                }
+                if (s.equals("aliases4")) {
+                    aliases4 = dataMap.get(s);
+                }
+                if (s.equals("aliases5")) {
+                    aliases5 = dataMap.get(s);
+                }
+            }
+
+            wait = new WebDriverWait(driver, 50);
+            WebElement addUnitButton = driver.findElement(By.xpath("//*[@class='btn btn-primary']"));
+            addUnitButton.click();
+            Select selectVertical = new Select(driver.findElement(By.cssSelector("[data-test='test-vertical-input']")));
+            selectVertical.selectByVisibleText(selectedField);
+            WebElement addName = driver.findElement(By.cssSelector("[data-test='test--unit-name']"));
+            addName.sendKeys(name);
+            WebElement addUnits = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[1]"));
+            addUnits.sendKeys(name1);
+            WebElement addAliases1 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[1]"));
+            addAliases1.sendKeys(aliases1);
+            addAliases1.sendKeys(Keys.ENTER);
+
+            if (!name2.trim().isEmpty()) {
+                WebElement clickOnPlusButton = driver.findElement(By.xpath("(//button[@class='mx-1 btn btn-secondary btn-sm'])"));
+                clickOnPlusButton.click();
+                WebElement addUnits2 = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[2]"));
+                addUnits2.sendKeys(name2);
+                if (!aliases2.trim().isEmpty()) {
+                    WebElement addAliases2 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[2]"));
+                    addAliases2.sendKeys(aliases2);
+                    addAliases2.sendKeys(Keys.ENTER);
+                }
+            }
+
+            if (!name3.trim().isEmpty()) {
+                WebElement clickOnPlusButton = driver.findElement(By.xpath("(//button[@class='mx-1 btn btn-secondary btn-sm'])"));
+                clickOnPlusButton.click();
+                WebElement addUnits3 = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[3]"));
+                addUnits3.sendKeys(name3);
+                if (!aliases3.trim().isEmpty()) {
+                    WebElement addAliases3 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[3]"));
+                    addAliases3.sendKeys(aliases3);
+                    addAliases3.sendKeys(Keys.ENTER);
+                }
+            }
+
+            if (!name4.trim().isEmpty()) {
+                WebElement clickOnPlusButton = driver.findElement(By.xpath("(//button[@class='mx-1 btn btn-secondary btn-sm'])"));
+                clickOnPlusButton.click();
+                WebElement addUnits4 = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[4]"));
+                addUnits4.sendKeys(name4);
+                if (!aliases4.trim().isEmpty()) {
+                    WebElement addAliases4 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[4]"));
+                    addAliases4.sendKeys(aliases4);
+                    addAliases4.sendKeys(Keys.ENTER);
+                }
+            }
+
+            if (!name5.trim().isEmpty()) {
+                WebElement clickOnPlusButton = driver.findElement(By.xpath("(//button[@class='mx-1 btn btn-secondary btn-sm'])"));
+                clickOnPlusButton.click();
+                WebElement addUnits5 = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[5]"));
+                addUnits5.sendKeys(name5);
+                if (!aliases5.trim().isEmpty()) {
+                    WebElement addAliases5 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[5]"));
+                    addAliases5.sendKeys(aliases5);
+                    addAliases5.sendKeys(Keys.ENTER);
+                }
+            }
+
+
+            WebElement saveDetailButton = driver.findElement(By.cssSelector("[data-test='test-submit-button']"));
+            saveDetailButton.click();
+            WebElement createMessageOnAddUnit = driver.findElement(By.id("swal2-title"));
+            System.out.println(createMessageOnAddUnit.getText());
+            Assert.assertEquals("Meta data saved successfully", createMessageOnAddUnit.getText());
+            Thread.sleep(3000);
+
+            WebElement quantityButton = driver.findElement(By.xpath("//*[@id='layout-sidenav']/div[3]/ul/li[4]"));
+            quantityButton.click();
+
+            WebElement addQuantityButton = driver.findElement(By.cssSelector("[class='btn btn-primary']"));
+            addQuantityButton.click();
+
+            Select selectVerticalForQuantity = new Select(driver.findElement(By.xpath("//*[@name='vertical']")));
+            selectVerticalForQuantity.selectByVisibleText(selectedField);
+
+            WebElement searchQuantityName = driver.findElement(By.cssSelector("[data-test='test-QuantityConfigName']"));
+            searchQuantityName.click();
+            searchQuantityName.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+            searchQuantityName.clear();
+            searchQuantityName.sendKeys(name);
+
+            Select selectQuantityType = new Select(driver.findElement(By.xpath("//*[@name='type']")));
+            selectQuantityType.selectByVisibleText(quantityType);
+
+            WebElement addUnit = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])"));
+            addUnit.sendKeys(name);
+            addUnit.sendKeys(Keys.ENTER);
+
+            WebElement selectUnitsCheckbox = driver.findElement(By.xpath("//*[@name='units']"));
+            selectUnitsCheckbox.click();
+
+            Select selectValueType = new Select(driver.findElement(By.xpath("//*[@name='numeric.numericType']")));
+            selectValueType.selectByVisibleText(valueType);
+
+            WebElement clickSaveButton = driver.findElement(By.xpath("(//*[@type='button'])[2]"));
+            clickSaveButton.click();
+
+            Thread.sleep(1000);
+            WebElement createMessageOnAddQuantity = driver.findElement(By.id("swal2-title"));
+            System.out.println(createMessageOnAddQuantity.getText());
+            Assert.assertEquals("Quantity created successfully", createMessageOnAddQuantity.getText());
+            Thread.sleep(3000);
+
+            WebElement unitButton = driver.findElement(By.xpath("//*[@id='layout-sidenav']/div[3]/ul/li[2]"));
+            unitButton.click();
+
+            WebElement searchUnitName = driver.findElement(By.xpath("//*[@class='form-control']"));
+            searchUnitName.click();
+            searchUnitName.sendKeys(Keys.chord(Keys.CONTROL, "a", Keys.DELETE));
+            searchUnitName.clear();
+            searchUnitName.sendKeys(name);
+            Assert.assertTrue(driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='edit-unit']")).isDisplayed());
+            Assert.assertTrue(driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']")).isDisplayed());
+
+
+            WebElement deleteButton = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']"));
+            deleteButton.click();
+            WebElement deleteUnit = driver.findElement(By.cssSelector("[class='swal2-confirm swal2-styled']"));
+            deleteUnit.click();
+            Thread.sleep(200);
+            WebElement popUpOnDeleteUnit = driver.findElement(By.id("swal2-title"));
+            System.out.println(popUpOnDeleteUnit.getText());
+            Assert.assertEquals("something went wrong", popUpOnDeleteUnit.getText());
+            Thread.sleep(5000);
+
+            Assert.assertTrue(driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='edit-unit']")).isDisplayed());
+            Assert.assertTrue(driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']")).isDisplayed());
+        }
+    }
 }
 

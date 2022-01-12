@@ -941,6 +941,162 @@ public class Collection_TestCases {
 
 
     @Test
+    public void downloadCollectionFileAsJson() throws Exception {
+
+        String selectedField = "";
+        String name = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Collection");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+
+            }
+            ip.close();
+
+            WebElement selectCollection = driver.findElement(By.xpath("(//*[@data-test='test-navItems'])[2]"));
+            selectCollection.click();
+
+            WebElement downloadButton = driver.findElement(By.xpath("(//button[@type='button'])[2]"));
+            downloadButton.click();
+
+            Thread.sleep(500);
+            Assert.assertTrue(driver.findElement(By.cssSelector("[class='modal-content']")).isDisplayed());
+
+
+            Select selectVertical = new Select(driver.findElement(By.cssSelector("[name='vertical']")));
+            selectVertical.selectByVisibleText(selectedField);
+
+//            WebElement jsonButton = driver.findElement(By.xpath("//input[@value='json']"));
+//            jsonButton.click();
+
+            WebElement submitButton = driver.findElement(By.xpath("//button[@type='submit']"));
+            submitButton.click();
+        }
+
+    }
+
+    @Test
+    public void downloadCollectionFileAsProto() throws Exception {
+
+        String selectedField = "";
+        String name = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Collection");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+
+            }
+            ip.close();
+
+            WebElement selectCollection = driver.findElement(By.xpath("(//*[@data-test='test-navItems'])[2]"));
+            selectCollection.click();
+
+            WebElement downloadButton = driver.findElement(By.xpath("(//button[@type='button'])[2]"));
+            downloadButton.click();
+
+            Thread.sleep(500);
+            Assert.assertTrue(driver.findElement(By.cssSelector("[class='modal-content']")).isDisplayed());
+
+
+            Select selectVertical = new Select(driver.findElement(By.cssSelector("[name='vertical']")));
+            selectVertical.selectByVisibleText(selectedField);
+
+            WebElement jsonButton = driver.findElement(By.xpath("//input[@value='proto']"));
+            jsonButton.click();
+
+            WebElement submitButton = driver.findElement(By.xpath("//button[@type='submit']"));
+            submitButton.click();
+        }
+
+    }
+
+
+    @Test
+    public void addCollectionWithEntity() throws Exception {
+
+        String selectedField = "";
+        String name = "";
+        String type = "";
+        String entityName = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Collection");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+                if (s.equals("type")) {
+                    type = dataMap.get(s);
+                }
+                if (s.equals("entityName")) {
+                    entityName = dataMap.get(s);
+                }
+
+            }
+            ip.close();
+
+            WebElement selectCollection = driver.findElement(By.xpath("(//*[@data-test='test-navItems'])[2]"));
+            selectCollection.click();
+
+            WebElement addCollectionButton = driver.findElement(By.cssSelector("[class='btn btn-primary']"));
+            addCollectionButton.click();
+
+            Select selectVertical = new Select(driver.findElement(By.cssSelector("[name='vertical']")));
+            selectVertical.selectByVisibleText(selectedField);
+
+            Select selectType = new Select(driver.findElement(By.cssSelector("[data-test='test-select']")));
+            selectType.selectByValue(type);
+
+            WebElement addEntityType = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])"));
+            addEntityType.sendKeys(entityName);
+            addEntityType.sendKeys(Keys.ENTER);
+
+            Thread.sleep(1000);
+            WebElement submitButton = driver.findElement(By.xpath("(//button[@type='button'])[3]"));
+            submitButton.click();
+
+            WebElement createMessageOnAddUnit = driver.findElement(By.id("swal2-title"));
+            System.out.println(createMessageOnAddUnit.getText());
+            Assert.assertEquals("Collection saved successfully", createMessageOnAddUnit.getText());
+            Thread.sleep(5000);
+           Assert.assertTrue(driver.findElement(By.xpath("//tbody/tr/td[text()='/"+ selectedField.toLowerCase() +"/collection/"+ name+"']/following-sibling::td[2]/div/button[@id='edit-collection']")).isDisplayed());
+
+
+
+
+        }
+
+    }
+
+
+    @Test
     public void addCollectionWithoutVerticalAndTypeField() throws Exception {
 
         WebDriverWait wait = new WebDriverWait(driver, 50);
