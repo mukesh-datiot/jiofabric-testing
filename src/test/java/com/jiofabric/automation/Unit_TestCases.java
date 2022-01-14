@@ -196,7 +196,20 @@ public class Unit_TestCases {
         WebElement createMessageOnAddUnit = driver.findElement(By.id("swal2-title"));
         System.out.println(createMessageOnAddUnit.getText());
         Assert.assertEquals("Meta data saved successfully", createMessageOnAddUnit.getText());
-        Thread.sleep(2000);
+        Thread.sleep(5000);
+
+
+        WebElement searchName = driver.findElement(By.xpath("//input[@class='form-control']"));
+        searchName.click();
+        searchName.click();
+        searchName.sendKeys(name);
+        WebElement crossButton = driver.findElement(By.xpath("(//*[@class='css-8mmkcg'])[2]"));
+        crossButton.click();
+        WebElement verticalOnSearch = driver.findElement(By.xpath("//input[starts-with(@id,'react-select')]"));
+        verticalOnSearch.sendKeys(selectedField);
+        verticalOnSearch.sendKeys(Keys.ENTER);
+//        Select selectVertical1 = new Select(driver.findElement(By.id("//input[starts-with(@id,'react-select')]")));
+//        selectVertical1.selectByVisibleText(selectedField);
         WebElement editButton = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='edit-unit']"));
         editButton.click();
         String vertical = driver.findElement(By.cssSelector("[data-test='test-vertical-input']")).getAttribute("value");
@@ -531,7 +544,8 @@ public class Unit_TestCases {
         WebElement createMessageOnAddUnit = driver.findElement(By.id("swal2-title"));
         System.out.println(createMessageOnAddUnit.getText());
         Assert.assertEquals("Meta data saved successfully", createMessageOnAddUnit.getText());
-        Thread.sleep(2000);
+        Thread.sleep(4000);
+
         WebElement editButton = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='edit-unit']"));
         editButton.click();
 //        verifyUnit();
@@ -596,6 +610,16 @@ public class Unit_TestCases {
 //            System.out.println("CHAL JAA BHAI");
 //            System.out.println(row.getText());
 //            row.findElement((By.cssSelector("td:nth-of-type(4)"))).findElement(By.id("delete-unit")).click();
+            WebElement searchName = driver.findElement(By.xpath("//input[@class='form-control']"));
+            searchName.click();
+            searchName.click();
+            searchName.sendKeys(name);
+            WebElement crossButton = driver.findElement(By.xpath("(//*[@class='css-8mmkcg'])[2]"));
+            crossButton.click();
+            WebElement verticalOnSearch = driver.findElement(By.xpath("//input[starts-with(@id,'react-select')]"));
+            verticalOnSearch.sendKeys(selectedField);
+            verticalOnSearch.sendKeys(Keys.ENTER);
+
             wait = new WebDriverWait(driver, 50);
             WebElement editButton1 = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']"));
             editButton1.click();
@@ -665,6 +689,16 @@ public class Unit_TestCases {
 //            System.out.println(row.getText());
 //            row.findElement((By.cssSelector("td:nth-of-type(4)"))).findElement(By.id("edit-unit")).click();
          //   Thread.sleep(2000);
+            WebElement searchName = driver.findElement(By.xpath("//input[@class='form-control']"));
+            searchName.click();
+            searchName.click();
+            searchName.sendKeys(name);
+            WebElement crossButton = driver.findElement(By.xpath("(//*[@class='css-8mmkcg'])[2]"));
+            crossButton.click();
+            WebElement verticalOnSearch = driver.findElement(By.xpath("//input[starts-with(@id,'react-select')]"));
+            verticalOnSearch.sendKeys(selectedField);
+            verticalOnSearch.sendKeys(Keys.ENTER);
+
             wait = new WebDriverWait(driver, 50);
             WebElement editButton = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='edit-unit']"));
             editButton.click();
@@ -739,6 +773,16 @@ public class Unit_TestCases {
 //            System.out.println(row.getText());
 //            row.findElement((By.cssSelector("td:nth-of-type(4)"))).findElement(By.id("delete-unit")).click();
             wait = new WebDriverWait(driver, 50);
+            WebElement searchName = driver.findElement(By.xpath("//input[@class='form-control']"));
+            searchName.click();
+            searchName.click();
+            searchName.sendKeys(name);
+            WebElement crossButton = driver.findElement(By.xpath("(//*[@class='css-8mmkcg'])[2]"));
+            crossButton.click();
+            WebElement verticalOnSearch = driver.findElement(By.xpath("//input[starts-with(@id,'react-select')]"));
+            verticalOnSearch.sendKeys(selectedField);
+            verticalOnSearch.sendKeys(Keys.ENTER);
+
             WebElement deleteButton1 = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']"));
             deleteButton1.click();
             WebElement deleteUnit =driver.findElement(By.cssSelector("[class='swal2-confirm swal2-styled']"));
@@ -1397,6 +1441,274 @@ public class Unit_TestCases {
             Assert.assertTrue(driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='edit-unit']")).isDisplayed());
             Assert.assertTrue(driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']")).isDisplayed());
         }
+    }
+
+
+    @Test
+    public void uploadUnitFileAsJson() throws Exception {
+
+        String selectedField = "";
+        String filePath = "";
+        String name = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Unit");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+                if (s.equals("filePath")) {
+                    filePath = dataMap.get(s);
+                }
+            }
+            ip.close();
+
+            WebElement uploadButton = driver.findElement(By.xpath("(//button[@type='button'])[3]"));
+            uploadButton.click();
+
+            Thread.sleep(500);
+            Assert.assertTrue(driver.findElement(By.cssSelector("[class='modal-content']")).isDisplayed());
+
+
+            Select selectVertical = new Select(driver.findElement(By.cssSelector("[name='vertical']")));
+            selectVertical.selectByVisibleText(selectedField);
+
+            Thread.sleep(1000);
+            WebElement chooseFileButton = driver.findElement(By.xpath("//input[@type='file']"));
+            chooseFileButton.sendKeys(filePath);
+
+            WebElement jsonButton = driver.findElement(By.xpath("//input[@value='json']"));
+            jsonButton.click();
+
+            WebElement submitButton = driver.findElement(By.xpath("//button[@type='submit']"));
+            submitButton.click();
+
+            WebElement popUpOnFileUpload = driver.findElement(By.id("swal2-title"));
+            System.out.println(popUpOnFileUpload.getText());
+            Assert.assertEquals("File uploaded successfully", popUpOnFileUpload.getText());
+            Thread.sleep(3000);
+        }
+
+    }
+
+
+    @Ignore
+    @Test
+    public void uploadUnitFileAsProto() throws Exception {
+
+        String selectedField = "";
+        String filePath = "";
+        String name = "";
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+        dataList = read(wb, "Collection");
+        for (Map<String, String> dataMap : dataList) {
+            Set<String> mapKeys = dataMap.keySet();
+            for (String s : mapKeys) {
+                if (s.equals("selectedField")) {
+                    selectedField = dataMap.get(s);
+                }
+                if (s.equals("name")) {
+                    name = dataMap.get(s);
+                }
+                if (s.equals("filePath")) {
+                    filePath = dataMap.get(s);
+                }
+
+            }
+            ip.close();
+
+            WebElement uploadButton = driver.findElement(By.xpath("(//button[@type='button'])[3]"));
+            uploadButton.click();
+
+            Thread.sleep(500);
+            Assert.assertTrue(driver.findElement(By.cssSelector("[class='modal-content']")).isDisplayed());
+
+
+            Select selectVertical = new Select(driver.findElement(By.cssSelector("[name='vertical']")));
+            selectVertical.selectByVisibleText(selectedField);
+
+            WebElement jsonButton = driver.findElement(By.xpath("//input[@value='proto']"));
+            jsonButton.click();
+
+            WebElement submitButton = driver.findElement(By.xpath("//button[@type='submit']"));
+            submitButton.click();
+        }
+
+    }
+
+
+    @Test
+    public void a_addDuplicateUnit() throws Exception {
+        FileInputStream ip = new FileInputStream("D:\\code\\Selenium-testng\\jioFabricAutomation\\src\\test\\resources\\excel\\unit.xlsx");
+        Workbook wb = WorkbookFactory.create(ip);
+        List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
+
+        dataList = read(wb, "Unit");
+        ip.close();
+        for (Map<String, String> dataMap : dataList) {
+            addDuplicateUnit(dataMap);
+        }
+    }
+
+
+    public static void addDuplicateUnit(Map<String, String> dataMap) throws InterruptedException, Exception {
+
+        //   WebDriverWait wait = new WebDriverWait(driver, 50);
+        String name = "";
+
+        String name1 = "";
+        String name2 = "";
+        String name3 = "";
+        String name4 = "";
+        String name5 = "";
+
+        String aliases1 = "";
+        String aliases2 = "";
+        String aliases3 = "";
+        String aliases4 = "";
+        String aliases5 = "";
+
+        String selectedField = "";
+        Set<String> mapKeys = dataMap.keySet();
+        for (String s : mapKeys) {
+            System.out.println("s = " + s);
+            if (s.equals("selectedField")) {
+                selectedField = dataMap.get(s);
+            }
+            if (s.equals("name")) {
+                name = dataMap.get(s);
+            }
+            if (s.equals("name1")) {
+                name1 = dataMap.get(s);
+            }
+            if (s.equals("name2")) {
+                name2 = dataMap.get(s);
+            }
+            if (s.equals("name3")) {
+                name3 = dataMap.get(s);
+            }
+            if (s.equals("name4")) {
+                name4 = dataMap.get(s);
+            }
+            if (s.equals("name5")) {
+                name5 = dataMap.get(s);
+            }
+            if (s.equals("aliases1")) {
+                aliases1 = dataMap.get(s);
+            }
+            if (s.equals("aliases2")) {
+                aliases2 = dataMap.get(s);
+            }
+            if (s.equals("aliases3")) {
+                aliases3 = dataMap.get(s);
+            }
+            if (s.equals("aliases4")) {
+                aliases4 = dataMap.get(s);
+            }
+            if (s.equals("aliases5")) {
+                aliases5 = dataMap.get(s);
+            }
+        }
+
+        wait = new WebDriverWait(driver, 50);
+        WebElement addUnitButton = driver.findElement(By.xpath("//*[@class='btn btn-primary']"));
+        addUnitButton.click();
+        Select selectVertical = new Select(driver.findElement(By.cssSelector("[data-test='test-vertical-input']")));
+        selectVertical.selectByVisibleText(selectedField);
+        WebElement addName = driver.findElement(By.cssSelector("[data-test='test--unit-name']"));
+        addName.sendKeys(name);
+        WebElement addUnits = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[1]"));
+        addUnits.sendKeys(name1);
+        WebElement addAliases1 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[1]"));
+        addAliases1.sendKeys(aliases1);
+        addAliases1.sendKeys(Keys.ENTER);
+
+        if (!name2.trim().isEmpty()) {
+            WebElement clickOnPlusButton = driver.findElement(By.xpath("(//button[@class='mx-1 btn btn-secondary btn-sm'])"));
+            clickOnPlusButton.click();
+            WebElement addUnits2 = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[2]"));
+            addUnits2.sendKeys(name2);
+            if (!aliases2.trim().isEmpty()) {
+                WebElement addAliases2 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[2]"));
+                addAliases2.sendKeys(aliases2);
+                addAliases2.sendKeys(Keys.ENTER);
+            }
+        }
+
+        if (!name3.trim().isEmpty()) {
+            WebElement clickOnPlusButton = driver.findElement(By.xpath("(//button[@class='mx-1 btn btn-secondary btn-sm'])"));
+            clickOnPlusButton.click();
+            WebElement addUnits3 = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[3]"));
+            addUnits3.sendKeys(name3);
+            if (!aliases3.trim().isEmpty()) {
+                WebElement addAliases3 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[3]"));
+                addAliases3.sendKeys(aliases3);
+                addAliases3.sendKeys(Keys.ENTER);
+            }
+        }
+
+        if (!name4.trim().isEmpty()) {
+            WebElement clickOnPlusButton = driver.findElement(By.xpath("(//button[@class='mx-1 btn btn-secondary btn-sm'])"));
+            clickOnPlusButton.click();
+            WebElement addUnits4 = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[4]"));
+            addUnits4.sendKeys(name4);
+            if (!aliases4.trim().isEmpty()) {
+                WebElement addAliases4 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[4]"));
+                addAliases4.sendKeys(aliases4);
+                addAliases4.sendKeys(Keys.ENTER);
+            }
+        }
+
+        if (!name5.trim().isEmpty()) {
+            WebElement clickOnPlusButton = driver.findElement(By.xpath("(//button[@class='mx-1 btn btn-secondary btn-sm'])"));
+            clickOnPlusButton.click();
+            WebElement addUnits5 = driver.findElement(By.xpath("(//input[@data-test='test-unitName'])[5]"));
+            addUnits5.sendKeys(name5);
+            if (!aliases5.trim().isEmpty()) {
+                WebElement addAliases5 = driver.findElement(By.xpath("(//input[starts-with(@id,'react-select')])[5]"));
+                addAliases5.sendKeys(aliases5);
+                addAliases5.sendKeys(Keys.ENTER);
+            }
+        }
+
+
+        WebElement saveDetailButton = driver.findElement(By.cssSelector("[data-test='test-submit-button']"));
+        saveDetailButton.click();
+//        WebElement createMessageOnAddUnit = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("swal2-title")));
+//        System.out.println(createMessageOnAddUnit.getText());
+        WebElement createMessageOnAddUnit = driver.findElement(By.id("swal2-title"));
+        System.out.println(createMessageOnAddUnit.getText());
+        Assert.assertEquals("Error: Item Already exists", createMessageOnAddUnit.getText());
+        Thread.sleep(4000);
+
+        WebElement clickOnBackButton = driver.findElement(By.cssSelector("[class='btn btn-info ml-1']"));
+        clickOnBackButton.click();
+
+        WebElement searchName = driver.findElement(By.xpath("//input[@class='form-control']"));
+        searchName.click();
+        searchName.click();
+        searchName.sendKeys(name);
+        WebElement crossButton = driver.findElement(By.xpath("(//*[@class='css-8mmkcg'])[2]"));
+        crossButton.click();
+        WebElement verticalOnSearch = driver.findElement(By.xpath("//input[starts-with(@id,'react-select')]"));
+        verticalOnSearch.sendKeys(selectedField);
+        verticalOnSearch.sendKeys(Keys.ENTER);
+
+        WebElement editButton = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='edit-unit']"));
+        Assert.assertTrue(editButton.isDisplayed());
+        WebElement deleteButton = driver.findElement(By.xpath("//tbody/tr/td[text()='"+ selectedField +"']/../../tr/td[text()='"+ name +"']/following-sibling::td/div/button[@id='delete-unit']"));
+        Assert.assertTrue(deleteButton.isDisplayed());
+
     }
 }
 
