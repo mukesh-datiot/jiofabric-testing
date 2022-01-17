@@ -25,9 +25,9 @@ public class Unit_TestCases {
     @BeforeClass
     public static void beforeClassSetup() {
         System.out.println("beforeClassSetup");
-        System.setProperty("webdriver.chrome.driver", "C:\\webdrivers\\chrome\\chromedriver.exe");
+        System.setProperty("webdriver.chrome.driver", "C:\\webdrivers\\chrome\\new\\chromedriver.exe");
         ChromeOptions options = new ChromeOptions();
-        options.setBinary("\"C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe\"");
+        options.setBinary("C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe");
         DesiredCapabilities capabilities = DesiredCapabilities.chrome();
         capabilities.setCapability(ChromeOptions.CAPABILITY, options);
     }
@@ -50,7 +50,7 @@ public class Unit_TestCases {
 
     @After
     public void tearDown() {
-        driver.close();
+            driver.close();
     }
 
 
